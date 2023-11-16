@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+	const string GroundTag = "Ground";
+
 	[SerializeField, Range(8f, 16f)] float moveSpeed = 11f;
 	[SerializeField, Range(3f, 8f)] float rotationSpeed = 4f;
 	[SerializeField, Range(8f, 16f)] float jumpStrength = 8f;
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnJump(InputAction.CallbackContext context)
 	{
-		if (context.performed)
+		if (context.performed && isOnGround)
 		{
 			Debug.Log("jump performed");
 			Vector3 currVelocity = rigidBody.velocity;
@@ -84,6 +86,22 @@ public class PlayerController : MonoBehaviour
 		{
 			rigidBody.MoveRotation(transform.rotation * Quaternion.Euler(0f, rotateDirection, 0f));
 			yield return new WaitForFixedUpdate();
+		}
+	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag(GroundTag))
+		{
+			isOnGround = true;
+		}
+	}
+
+	void OnCollisionExit(Collision collision)
+	{
+		if (collision.gameObject.CompareTag(GroundTag))
+		{
+			isOnGround = false;
 		}
 	}
 }
