@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 	[SerializeField, Range(3f, 8f)] float rotationSpeed = 4f;
 	[SerializeField, Range(8f, 16f)] float jumpStrength = 8f;
 
-	bool isMoving = false;
 	bool isOnGround = false;
 	float rotateDirection = 0f;
 	Vector2 moveVector = Vector2.zero;
@@ -26,7 +25,6 @@ public class PlayerController : MonoBehaviour
 
 	public void OnMove(InputAction.CallbackContext context)
 	{
-		isMoving = context.performed;
 		moveVector = context.ReadValue<Vector2>();
 
 		if (context.performed)
@@ -64,9 +62,7 @@ public class PlayerController : MonoBehaviour
 		if (context.performed && isOnGround)
 		{
 			Debug.Log("jump performed");
-			Vector3 currVelocity = rigidBody.velocity;
-			currVelocity.y = jumpStrength;
-			rigidBody.velocity = currVelocity;
+			rigidBody.AddForce(0, jumpStrength, 0, ForceMode.VelocityChange);
 		}
 	}
 
