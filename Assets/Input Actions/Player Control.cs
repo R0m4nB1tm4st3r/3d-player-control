@@ -44,15 +44,6 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Value"",
-                    ""id"": ""70c42d1f-9177-4d80-8948-09da9d24d409"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -121,39 +112,6 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""1a496717-3bf9-4f4d-a4ef-e8b6d9c58cca"",
-                    ""path"": ""2DVector(mode=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""25abb8f4-0c02-499c-9c7b-38ee0a4b5d13"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""4e5fe2b9-cb10-4cda-b992-cef7aebda815"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -176,7 +134,6 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,14 +197,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Rotate;
     public struct PlayerActions
     {
         private @PlayerControl m_Wrapper;
         public PlayerActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,9 +218,6 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Rotate.started += instance.OnRotate;
-            @Rotate.performed += instance.OnRotate;
-            @Rotate.canceled += instance.OnRotate;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -276,9 +228,6 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Rotate.started -= instance.OnRotate;
-            @Rotate.performed -= instance.OnRotate;
-            @Rotate.canceled -= instance.OnRotate;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -309,6 +258,5 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnRotate(InputAction.CallbackContext context);
     }
 }
