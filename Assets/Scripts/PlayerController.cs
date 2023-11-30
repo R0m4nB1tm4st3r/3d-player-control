@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
 		while(true)
 		{
 			transform.rotation = Quaternion.Euler(0, cameraFollowTarget.rotation.eulerAngles.y, 0);
-			cameraFollowTarget.SetLocalPositionAndRotation(transform.position, Quaternion.Euler(Vector3.zero));
+			cameraFollowTarget.localRotation = Quaternion.Euler(Vector3.zero);
 			yield return new WaitForEndOfFrame();
 		}
 	}
