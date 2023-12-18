@@ -14,12 +14,10 @@ public class PlayerController : MonoBehaviour
 	public float JumpStrength { get; set; } = 8f;
 
 	bool isOnGround = false;
-	bool isMoving = false;
-	Vector2 moveVector = Vector2.zero;
+	bool isMoveInputPresent = false;
     Rigidbody rigidBody = null;
 	Transform cameraFollowTarget = null;
 	InputController inputController = null;
-	IEnumerator moveCoroutine = null, rotateCoroutine = null;
 
 	void Start()
 	{
@@ -31,23 +29,23 @@ public class PlayerController : MonoBehaviour
 	void Update()
 	{
 		UpdateMovingState();
+		Rotate();
 	}
 
 	void FixedUpdate()
 	{
 		Move();
-		Rotate();
 		Jump();
 	}
 
 	void UpdateMovingState()
 	{
-		isMoving = inputController.MoveDelta != Vector3.zero;
+		isMoveInputPresent = inputController.MoveDelta != Vector3.zero;
 	}
 
 	void Move()
 	{
-		if (isMoving)
+		if (isMoveInputPresent)
 		{
 			Vector3 newVelocity =
 				(transform.right * inputController.MoveDelta.x + transform.forward * inputController.MoveDelta.z)
@@ -58,10 +56,13 @@ public class PlayerController : MonoBehaviour
 
 	private void Rotate()
 	{
-		if (isMoving)
+		if (isMoveInputPresent)
 		{
-			rigidBody.MoveRotation(
-				Quaternion.Euler(new Vector3(0, cameraFollowTarget.rotation.eulerAngles.y, 0)));
+
+			//rigidBody.MoveRotation(
+			//	Quaternion.Euler(new Vector3(0, cameraFollowTarget.rotation.eulerAngles.y, 0)));
+			transform.rotation = 
+				Quaternion.Euler(new Vector3(0, cameraFollowTarget.rotation.eulerAngles.y, 0));
 			cameraFollowTarget.localRotation = Quaternion.Euler(Vector3.zero);
 		}
 	}
@@ -72,58 +73,6 @@ public class PlayerController : MonoBehaviour
 		{
 			Vector3 newVelocity = new(rigidBody.velocity.x, JumpStrength, rigidBody.velocity.z);
 			rigidBody.velocity = newVelocity;
-		}
-	}
-
-	public void OnMove(InputAction.CallbackContext context)
-	{
-		moveVector = context.ReadValue<Vector2>();
-
-		if (context.performed)
-		{
-			rotateCoroutine = RotatePlayer();
-			StartCoroutine(rotateCoroutine);
-			moveCoroutine = MovePlayer();
-			StartCoroutine(moveCoroutine);
-		}
-		else if (context.canceled)
-		{
-			Debug.Log("move canceled");
-			StopCoroutine(rotateCoroutine);
-			StopCoroutine(moveCoroutine);
-		}
-	}
-
-	public void OnJump(InputAction.CallbackContext context)
-	{	
-		if (context.performed && isOnGround)
-		{
-			Debug.Log("jump performed");
-
-			Vector3 newVelocity = new(rigidBody.velocity.x, JumpStrength, rigidBody.velocity.z);
-			rigidBody.velocity = newVelocity;
-		}
-	}
-
-	IEnumerator MovePlayer()
-	{
-		while(true)
-		{
-			Vector3 newVelocity =
-				(transform.right * moveVector.x + transform.forward * moveVector.y) * MoveSpeed;
-			rigidBody.velocity = newVelocity + Vector3.up * rigidBody.velocity.y;
-			yield return new WaitForFixedUpdate();
-		}
-	}
-
-	IEnumerator RotatePlayer()
-	{
-		while(true)
-		{
-			Debug.Log("rotating!");
-			transform.rotation = Quaternion.Euler(0, cameraFollowTarget.rotation.eulerAngles.y, 0);
-			cameraFollowTarget.localRotation = Quaternion.Euler(Vector3.zero);
-			yield return new WaitForEndOfFrame();
 		}
 	}
 
