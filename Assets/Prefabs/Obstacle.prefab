@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6025027359141666720}
   - component: {fileID: 7869545319846378675}
   m_Layer: 0
-  m_Name: Obstacle-Cube
+  m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 636
+  m_VersionIndex: 639
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -302,7 +302,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be1fcf4fbe9b1ea4e984bfaae6afd8f5, type: 2}
+  - {fileID: 2100000, guid: a20c716f1b5b7fa46951b0940a810755, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

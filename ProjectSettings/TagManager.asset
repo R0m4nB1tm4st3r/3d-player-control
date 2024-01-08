@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Camera Target
+  - DoorOpener
   layers:
   - Default
   - TransparentFX
