@@ -58,9 +58,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if (isMoveInputPresent)
 		{
-
-			//rigidBody.MoveRotation(
-			//	Quaternion.Euler(new Vector3(0, cameraFollowTarget.rotation.eulerAngles.y, 0)));
 			transform.rotation = 
 				Quaternion.Euler(new Vector3(0, cameraFollowTarget.rotation.eulerAngles.y, 0));
 			cameraFollowTarget.localRotation = Quaternion.Euler(Vector3.zero);

@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e656bc43d51f8a74a951ead61e00b69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <RotationSpeed>k__BackingField: 5
+  <RotationSpeed>k__BackingField: 25
 --- !u!43 &1657479410
 Mesh:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RotationController : MonoBehaviour
 {
-	[field: SerializeField, Range(1f, 5f)] 
+	[field: SerializeField, Range(1f, 25f)] 
     public float RotationSpeed { get; set; } = 2f;
 
 	InputController inputController = null;
